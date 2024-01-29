@@ -18,28 +18,28 @@ extension QuotesInteractor {
     }
 
     func reloadModel() {
-        Task {
+        Task.detached { [weak self] in
             guard let model = await RandomQuotes(number: 30).fetch() else {
                 return
             }
 
-            self.model = model
+            self?.model = model
 
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
                 self?.presenter?.updateModel(model: model)
             }
         }
     }
 
     func loadMoreModel() {
-        Task {
+        Task.detached { [weak self] in
             guard let model = await RandomQuotes(number: 30).fetch() else {
                 return
             }
 
-            self.model += model
+            self?.model += model
 
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
                 self?.presenter?.updateModel(model: self?.model ?? [])
             }
         }

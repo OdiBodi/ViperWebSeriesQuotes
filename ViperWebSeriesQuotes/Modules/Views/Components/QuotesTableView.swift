@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-class QuotesTableView: UIView, UITableViewDataSource, UITableViewDelegate {
+class QuotesTableView: UIView {
     private lazy var tableView: UITableView = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(onRefreshControlValueChanged), for: .valueChanged)
@@ -103,7 +103,7 @@ extension QuotesTableView {
 
 // MARK: - UITableViewDataSource
 
-extension QuotesTableView {
+extension QuotesTableView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         model.count
     }
@@ -135,7 +135,7 @@ extension QuotesTableView {
 
 // MARK: - UITableViewDelegate
 
-extension QuotesTableView {
+extension QuotesTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         150
     }

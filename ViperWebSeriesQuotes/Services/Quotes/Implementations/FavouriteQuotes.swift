@@ -11,6 +11,7 @@ class FavouriteQuotes {
 // MARK: - Operations
 
 extension FavouriteQuotes {
+    @discardableResult
     func load() -> Bool {
         guard let url = url() else {
             return false
@@ -28,6 +29,7 @@ extension FavouriteQuotes {
         return false
     }
 
+    @discardableResult
     func save() -> Bool {
         do {
             let model = FavouriteQuotesModel(quotes: quotes)

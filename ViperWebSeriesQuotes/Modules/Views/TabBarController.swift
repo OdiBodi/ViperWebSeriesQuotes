@@ -4,7 +4,11 @@ import Combine
 class TabBarController: UITabBarController, CoordinatorModule {
     private let completionSubject = PassthroughSubject<TabBarModuleCompletion, Never>()
     private var subscriptions = Set<AnyCancellable>()
+}
 
+// MARK: - Life cycle
+
+extension TabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()

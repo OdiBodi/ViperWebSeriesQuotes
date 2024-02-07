@@ -1,5 +1,5 @@
 class QuotePreviewPresenter {
-    private var view: QuotePreviewViewController?
+    private weak var view: QuotePreviewViewController?
     private var interactor: QuotePreviewInteractor?
     private var router: QuotePreviewRouter?
 }

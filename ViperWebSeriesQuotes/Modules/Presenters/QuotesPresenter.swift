@@ -1,5 +1,5 @@
 class QuotesPresenter {
-    private var view: QuotesViewController?
+    private weak var view: QuotesViewController?
     private var interactor: QuotesInteractor?
     private var router: QuotesRouter?
 }

@@ -1,5 +1,5 @@
 class FavouriteQuotesPresenter {
-    private var view: FavouriteQuotesViewController?
+    private weak var view: FavouriteQuotesViewController?
     private var interactor: FavouriteQuotesInteractor?
     private var router: FavouriteQuotesRouter?
 }

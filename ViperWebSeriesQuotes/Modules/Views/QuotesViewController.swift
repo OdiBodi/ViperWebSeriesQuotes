@@ -3,35 +3,7 @@ import SnapKit
 import Combine
 
 class QuotesViewController: UIViewController {
-    private lazy var quotesTableView: QuotesTableView = {
-        let view = QuotesTableView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        view.reloadModel.sink { [weak self] refreshControl in
-            refreshControl.beginRefreshing()
-            self?.presenter?.reloadModel()
-            RunLoop.main.perform {
-                refreshControl.endRefreshing()
-            }
-        }.store(in: &subscriptions)
-        view.loadMoreModel.sink { [weak self] in
-            self?.presenter?.loadMoreModel()
-        }.store(in: &subscriptions)
-        view.addFavouriteQuote.sink { [weak self] model in
-            self?.presenter?.addFavouriteQuote(model: model)
-        }.store(in: &subscriptions)
-        view.removeFavouriteQuote.sink { [weak self] model in
-            self?.presenter?.removeFavouriteQuote(model: model)
-        }.store(in: &subscriptions)
-        view.openQuote.sink { [weak self] model in
-            self?.presenter?.openQuote(model: model)
-        }.store(in: &subscriptions)
-        view.favouritedQuoteHandler = { [weak self] model in
-            self?.presenter?.favouritedQuote(model: model) ?? false
-        }
-
-        return view
-    }()
+    private lazy var tableView = initializeTableView()
 
     private var presenter: QuotesPresenter?
     private var subscriptions = Set<AnyCancellable>()
@@ -42,15 +14,15 @@ class QuotesViewController: UIViewController {
 extension QuotesViewController {
     var model: [QuoteModel] {
         get {
-            quotesTableView.model
+            tableView.model
         }
         set {
-            quotesTableView.model = newValue
+            tableView.model = newValue
         }
     }
 }
 
-// MARK: Life cycle
+// MARK: - Life cycle
 
 extension QuotesViewController {
     override func viewDidLoad() {
@@ -67,7 +39,7 @@ extension QuotesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if presenter?.modelExists() ?? false {
-            quotesTableView.update()
+            tableView.update()
         } else {
             presenter?.reloadModel()
         }
@@ -99,12 +71,42 @@ extension QuotesViewController {
 // MARK: - Subviews
 
 extension QuotesViewController {
+    private func initializeTableView() -> QuotesTableView {
+        let view = QuotesTableView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.reloadModel.sink { [weak self] refreshControl in
+            refreshControl.beginRefreshing()
+            self?.presenter?.reloadModel()
+            RunLoop.main.perform {
+                refreshControl.endRefreshing()
+            }
+        }.store(in: &subscriptions)
+        view.loadMoreModel.sink { [weak self] in
+            self?.presenter?.loadMoreModel()
+        }.store(in: &subscriptions)
+        view.addFavouriteQuote.sink { [weak self] model in
+            self?.presenter?.addFavouriteQuote(model: model)
+        }.store(in: &subscriptions)
+        view.removeFavouriteQuote.sink { [weak self] model in
+            self?.presenter?.removeFavouriteQuote(model: model)
+        }.store(in: &subscriptions)
+        view.openQuote.sink { [weak self] model in
+            self?.presenter?.openQuote(model: model)
+        }.store(in: &subscriptions)
+        view.favouritedQuoteHandler = { [weak self] model in
+            self?.presenter?.favouritedQuote(model: model) ?? false
+        }
+
+        return view
+    }
+
     private func addSubviews() {
-        view.addSubview(quotesTableView)
+        view.addSubview(tableView)
     }
 
     private func updateSubviewsConstraints() {
-        quotesTableView.snp.updateConstraints { maker in
+        tableView.snp.updateConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
@@ -116,6 +118,6 @@ extension QuotesViewController {
 
 extension QuotesViewController {
     func scrollToTop() {
-        quotesTableView.scrollToTop()
+        tableView.scrollToTop()
     }
 }

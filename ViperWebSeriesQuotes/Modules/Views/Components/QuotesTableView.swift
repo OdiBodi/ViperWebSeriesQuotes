@@ -2,20 +2,7 @@ import UIKit
 import Combine
 
 class QuotesTableView: UIView {
-    private lazy var tableView: UITableView = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(onRefreshControlValueChanged), for: .valueChanged)
-
-        let view = UITableView(frame: .zero, style: .plain)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.dataSource = self
-        view.delegate = self
-        view.register(QuoteViewCell.self, forCellReuseIdentifier: "QuoteViewCell")
-        view.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        view.refreshControl = refreshControl
-
-        return view
-    }()
+    private lazy var tableView = initializeTableView()
 
     var model: [QuoteModel] = [] {
         didSet {
@@ -77,6 +64,21 @@ extension QuotesTableView {
 // MARK: - Subviews {
 
 extension QuotesTableView {
+    private func initializeTableView() -> UITableView {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefreshControlValueChanged), for: .valueChanged)
+
+        let view = UITableView(frame: .zero, style: .plain)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.dataSource = self
+        view.delegate = self
+        view.register(QuoteViewCell.self, forCellReuseIdentifier: "QuoteViewCell")
+        view.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        view.refreshControl = refreshControl
+
+        return view
+    }
+
     private func addSubviews() {
         addSubview(tableView)
     }

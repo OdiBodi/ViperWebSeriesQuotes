@@ -1,13 +1,7 @@
 import UIKit
 
 class BubbleLabel: UIView {
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
-        return label
-    }()
+    private lazy var titleLabel = initializeTitleLabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,6 +65,14 @@ extension BubbleLabel {
 // MARK: - Subviews
 
 extension BubbleLabel {
+    private func initializeTitleLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        return label
+    }
+
     private func addSubviews() {
         addSubview(titleLabel)
     }

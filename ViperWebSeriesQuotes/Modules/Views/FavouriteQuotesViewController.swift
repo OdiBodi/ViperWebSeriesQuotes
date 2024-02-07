@@ -3,32 +3,7 @@ import SnapKit
 import Combine
 
 class FavouriteQuotesViewController: UIViewController {
-    private lazy var quotesTableView: QuotesTableView = {
-        let view = QuotesTableView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        view.reloadModel.sink { [weak self] refreshControl in
-            refreshControl.beginRefreshing()
-            self?.presenter?.reloadModel()
-            RunLoop.main.perform {
-                refreshControl.endRefreshing()
-            }
-        }.store(in: &subscriptions)
-        view.addFavouriteQuote.sink { [weak self] model in
-            self?.presenter?.addFavouriteQuote(model: model)
-        }.store(in: &subscriptions)
-        view.removeFavouriteQuote.sink { [weak self] model in
-            self?.presenter?.removeFavouriteQuote(model: model)
-        }.store(in: &subscriptions)
-        view.openQuote.sink { [weak self] model in
-            self?.presenter?.openQuote(model: model)
-        }.store(in: &subscriptions)
-        view.favouritedQuoteHandler = { [weak self] model in
-            self?.presenter?.favouritedQuote(model: model) ?? false
-        }
-
-        return view
-    }()
+    private lazy var tableView = initializeTableView()
 
     private var presenter: FavouriteQuotesPresenter?
     private var subscriptions = Set<AnyCancellable>()
@@ -39,15 +14,15 @@ class FavouriteQuotesViewController: UIViewController {
 extension FavouriteQuotesViewController {
     var model: [QuoteModel] {
         get {
-            quotesTableView.model
+            tableView.model
         }
         set {
-            quotesTableView.model = newValue
+            tableView.model = newValue
         }
     }
 }
 
-// MARK: Life cycle
+// MARK: - Life cycle
 
 extension FavouriteQuotesViewController {
     override func viewDidLoad() {
@@ -92,12 +67,39 @@ extension FavouriteQuotesViewController {
 // MARK: - Subviews
 
 extension FavouriteQuotesViewController {
+    private func initializeTableView() -> QuotesTableView {
+        let view = QuotesTableView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.reloadModel.sink { [weak self] refreshControl in
+            refreshControl.beginRefreshing()
+            self?.presenter?.reloadModel()
+            RunLoop.main.perform {
+                refreshControl.endRefreshing()
+            }
+        }.store(in: &subscriptions)
+        view.addFavouriteQuote.sink { [weak self] model in
+            self?.presenter?.addFavouriteQuote(model: model)
+        }.store(in: &subscriptions)
+        view.removeFavouriteQuote.sink { [weak self] model in
+            self?.presenter?.removeFavouriteQuote(model: model)
+        }.store(in: &subscriptions)
+        view.openQuote.sink { [weak self] model in
+            self?.presenter?.openQuote(model: model)
+        }.store(in: &subscriptions)
+        view.favouritedQuoteHandler = { [weak self] model in
+            self?.presenter?.favouritedQuote(model: model) ?? false
+        }
+
+        return view
+    }
+
     private func addSubviews() {
-        view.addSubview(quotesTableView)
+        view.addSubview(tableView)
     }
 
     private func updateSubviewsConstraints() {
-        quotesTableView.snp.updateConstraints { maker in
+        tableView.snp.updateConstraints { maker in
             maker.left.right.equalToSuperview()
             maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
@@ -109,6 +111,6 @@ extension FavouriteQuotesViewController {
 
 extension FavouriteQuotesViewController {
     func scrollToTop() {
-        quotesTableView.scrollToTop()
+        tableView.scrollToTop()
     }
 }

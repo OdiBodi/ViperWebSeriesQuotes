@@ -1,58 +1,16 @@
 import UIKit
 
 class QuotePreviewViewController: UIViewController {
-    private lazy var topPlaceholderView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray
-        view.layer.cornerRadius = 2.5
-        return view
-    }()
-
-    private lazy var verticalStackView: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        view.spacing = 10
-        view.isLayoutMarginsRelativeArrangement = true
-        return view
-    }()
-
-    private lazy var quoteLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
-        label.numberOfLines = -1
-        label.font = .boldSystemFont(ofSize: 28)
-        label.textColor = R.color.quote.text()
-        return label
-    }()
-
-    private lazy var authorLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 24)
-        label.textColor = R.color.quote.authorText()
-        return label
-    }()
-
-    private lazy var seriesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = R.color.quote.seriesText()
-        return label
-    }()
+    private lazy var topPlaceholderView = initializeTopPlaceholderView()
+    private lazy var verticalStack = initializeVerticalStack()
+    private lazy var quoteLabel = initializeQuoteLabel()
+    private lazy var authorLabel = initializeAuthorLabel()
+    private lazy var seriesLabel = initializeSeriesLabel()
 
     private var presenter: QuotePreviewPresenter?
 }
 
-// MARK: Life cycle
+// MARK: - Life cycle
 
 extension QuotePreviewViewController {
     override func viewDidLoad() {
@@ -94,12 +52,61 @@ extension QuotePreviewViewController {
 // MARK: - Subviews
 
 extension QuotePreviewViewController {
+    private func initializeTopPlaceholderView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray
+        view.layer.cornerRadius = 2.5
+        return view
+    }
+
+    private func initializeVerticalStack() -> UIStackView {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isLayoutMarginsRelativeArrangement = true
+        view.axis = .vertical
+        view.spacing = 10
+        return view
+    }
+
+    private func initializeQuoteLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        label.numberOfLines = -1
+        label.font = .boldSystemFont(ofSize: 28)
+        label.textColor = R.color.quote.text()
+        return label
+    }
+
+    private func initializeAuthorLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        label.font = .boldSystemFont(ofSize: 24)
+        label.textColor = R.color.quote.authorText()
+        return label
+    }
+
+    private func initializeSeriesLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = R.color.quote.seriesText()
+        return label
+    }
+
     private func addSubviews() {
         view.addSubview(topPlaceholderView)
-        view.addSubview(verticalStackView)
-        verticalStackView.addArrangedSubview(quoteLabel)
-        verticalStackView.addArrangedSubview(authorLabel)
-        verticalStackView.addArrangedSubview(seriesLabel)
+        view.addSubview(verticalStack)
+
+        verticalStack.addArrangedSubview(quoteLabel)
+        verticalStack.addArrangedSubview(authorLabel)
+        verticalStack.addArrangedSubview(seriesLabel)
     }
 
     private func updateSubviewsConstraints() {
@@ -109,7 +116,7 @@ extension QuotePreviewViewController {
             maker.width.equalTo(50)
             maker.height.equalTo(5)
         }
-        verticalStackView.snp.updateConstraints { maker in
+        verticalStack.snp.updateConstraints { maker in
             maker.left.right.equalToSuperview().inset(16)
             maker.top.equalToSuperview().inset(50)
             maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(50)

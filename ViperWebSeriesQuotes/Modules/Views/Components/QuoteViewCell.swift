@@ -1,56 +1,11 @@
 import UIKit
 
 class QuoteViewCell: UITableViewCell {
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 4
-        label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = R.color.quote.text()
-        return label
-    }()
-
-    private lazy var horizontalStack: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .horizontal
-        view.spacing = 10
-        view.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        view.isLayoutMarginsRelativeArrangement = true
-        return view
-    }()
-
-    private lazy var authorLabel: BubbleLabel = {
-        let label = BubbleLabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.color = R.color.quote.authorBackground()
-        label.textColor = R.color.quote.authorText()
-        label.cornerRadius = 15
-        return label
-    }()
-
-    private lazy var seriesLabel: BubbleLabel = {
-        let label = BubbleLabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.color = R.color.quote.seriesBackground()
-        label.textColor = R.color.quote.seriesText()
-        label.cornerRadius = 15
-        return label
-    }()
-
-    private lazy var favouriteImage: UIImageView = {
-        let image = UIImage(systemName: "heart")
-        let view = UIImageView(image: image)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isUserInteractionEnabled = true
-        view.contentMode = .scaleAspectFill
-        view.tintColor = .systemRed
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onFavouriteImageTapped))
-        view.addGestureRecognizer(tapGestureRecognizer)
-
-        return view
-    }()
+    private lazy var descriptionLabel = initializeDescriptionLabel()
+    private lazy var horizontalStack = initializeHorizontalStack()
+    private lazy var authorLabel = initializeAuthorLabel()
+    private lazy var seriesLabel = initializeSeriesLabel()
+    private lazy var favouriteImage = initializeFavouriteImage()
 
     var favourited: Bool = false {
         didSet {
@@ -92,6 +47,57 @@ extension QuoteViewCell {
 // MARK: - Subviews
 
 extension QuoteViewCell {
+    private func initializeDescriptionLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 4
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = R.color.quote.text()
+        return label
+    }
+
+    private func initializeHorizontalStack() -> UIStackView {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .horizontal
+        view.spacing = 10
+        view.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        view.isLayoutMarginsRelativeArrangement = true
+        return view
+    }
+
+    private func initializeAuthorLabel() -> BubbleLabel {
+        let label = BubbleLabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.color = R.color.quote.authorBackground()
+        label.textColor = R.color.quote.authorText()
+        label.cornerRadius = 15
+        return label
+    }
+
+    private func initializeSeriesLabel() -> BubbleLabel {
+        let label = BubbleLabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.color = R.color.quote.seriesBackground()
+        label.textColor = R.color.quote.seriesText()
+        label.cornerRadius = 15
+        return label
+    }
+
+    private func initializeFavouriteImage() -> UIImageView {
+        let image = UIImage(systemName: "heart")
+        let view = UIImageView(image: image)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = true
+        view.contentMode = .scaleAspectFill
+        view.tintColor = .systemRed
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onFavouriteImageTapped))
+        view.addGestureRecognizer(tapGestureRecognizer)
+
+        return view
+    }
+
     private func addSubviews() {
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(horizontalStack)

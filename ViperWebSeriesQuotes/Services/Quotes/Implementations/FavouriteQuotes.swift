@@ -3,9 +3,9 @@ import Foundation
 class FavouriteQuotes {
     static let shared = FavouriteQuotes()
 
-    private init() { }
-
     var quotes: [QuoteModel] = []
+
+    private init() { }
 }
 
 // MARK: - Operations

@@ -1,6 +1,8 @@
 import UIKit
 
 class QuoteViewCell: UITableViewCell {
+    static let id = "\(QuoteViewCell.self)"
+
     private lazy var descriptionLabel = initializeDescriptionLabel()
     private lazy var horizontalStack = initializeHorizontalStack()
     private lazy var authorLabel = initializeAuthorLabel()

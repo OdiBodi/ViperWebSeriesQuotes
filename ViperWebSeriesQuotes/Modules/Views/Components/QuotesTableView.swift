@@ -72,7 +72,7 @@ extension QuotesTableView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.dataSource = self
         view.delegate = self
-        view.register(QuoteViewCell.self, forCellReuseIdentifier: "QuoteViewCell")
+        view.register(QuoteViewCell.self, forCellReuseIdentifier: QuoteViewCell.id)
         view.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         view.refreshControl = refreshControl
 
@@ -111,7 +111,7 @@ extension QuotesTableView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "QuoteViewCell", for: indexPath) as! QuoteViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: QuoteViewCell.id, for: indexPath) as! QuoteViewCell
 
         let index = indexPath.item
         let model = model[index]

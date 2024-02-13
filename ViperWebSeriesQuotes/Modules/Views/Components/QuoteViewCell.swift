@@ -1,8 +1,6 @@
 import UIKit
 
 class QuoteViewCell: UITableViewCell {
-    static let id = "\(QuoteViewCell.self)"
-
     private lazy var descriptionLabel = initializeDescriptionLabel()
     private lazy var horizontalStack = initializeHorizontalStack()
     private lazy var authorLabel = initializeAuthorLabel()
@@ -24,6 +22,12 @@ class QuoteViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+// MARK: - Static
+
+extension QuoteViewCell {
+    static let id = "\(QuoteViewCell.self)"
 }
 
 // MARK: - Life cycle

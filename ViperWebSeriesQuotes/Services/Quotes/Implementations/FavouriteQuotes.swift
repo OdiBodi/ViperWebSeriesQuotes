@@ -1,11 +1,15 @@
 import Foundation
 
 class FavouriteQuotes {
-    static let shared = FavouriteQuotes()
-
     var quotes: [QuoteModel] = []
 
     private init() { }
+}
+
+// MARK: - Static
+
+extension FavouriteQuotes {
+    static let shared = FavouriteQuotes()
 }
 
 // MARK: - Operations
